@@ -1,0 +1,51 @@
+.navbar {
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--text);
+}
+
+.navbar-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.nav-btn {
+  font-size: 0.9rem;
+}
+
+.nav-signup {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--text);
+}
+
+.nav-signup:hover {
+  background: var(--text);
+  color: var(--bg);
+  text-decoration: none;
+}

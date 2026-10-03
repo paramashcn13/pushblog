@@ -1,0 +1,140 @@
+.comment-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--text);
+}
+
+.comments-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.comment-form {
+  margin-bottom: 2rem;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+.comment-input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--text);
+  padding: 0.75rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  resize: none;
+}
+
+.comment-input:focus {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.comment-submit {
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: auto;
+  display: block;
+}
+
+.comment-submit:hover:not(:disabled) {
+  opacity: 0.7;
+}
+
+.comment-submit:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.login-prompt {
+  text-align: center;
+  padding: 1.5rem;
+  border: 1px solid var(--text);
+  margin-bottom: 2rem;
+  opacity: 0.7;
+}
+
+.login-prompt a {
+  font-weight: 600;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment {
+  display: flex;
+  gap: 1rem;
+}
+
+.comment-body {
+  flex: 1;
+  border: 1px solid var(--text);
+  padding: 1rem;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.comment-author {
+  font-weight: 600;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.comment-delete {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.comment-delete:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.comment-content {
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.no-comments,
+.comments-loading {
+  text-align: center;
+  padding: 2rem;
+  opacity: 0.6;
+}
