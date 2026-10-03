@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProjects, createProject, updateProject, deleteProject } from '../api/client';
+import {
+  API_BASE_URL,
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+  getGithubWebhookConfig,
+  rotateGithubWebhookSecret,
+} from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import './Projects.css';
 
@@ -17,6 +25,11 @@ export default function Projects() {
     repo_url: '',
   });
   const [submitting, setSubmitting] = useState(false);
+  const [webhookProjectId, setWebhookProjectId] = useState(null);
+  const [webhookConfig, setWebhookConfig] = useState(null);
+  const [webhookError, setWebhookError] = useState('');
+  const [webhookNotice, setWebhookNotice] = useState('');
+  const [pageError, setPageError] = useState('');
 
   useEffect(() => {
     if (!user) {
@@ -47,6 +60,7 @@ export default function Projects() {
 
     setSubmitting(true);
     try {
+      setPageError('');
       if (editingProject) {
         const res = await updateProject(editingProject.project_id, formData);
         setProjects(projects.map(p =>
@@ -58,7 +72,7 @@ export default function Projects() {
       }
       resetForm();
     } catch (err) {
-      console.error('Failed to save project:', err);
+      setPageError(err.response?.data?.detail || 'Could not save this project.');
     } finally {
       setSubmitting(false);
     }
@@ -82,7 +96,7 @@ export default function Projects() {
       await deleteProject(projectId);
       setProjects(projects.filter(p => p.project_id !== projectId));
     } catch (err) {
-      console.error('Failed to delete project:', err);
+      setPageError(err.response?.data?.detail || 'Could not delete this project.');
     }
   };
 
@@ -90,6 +104,46 @@ export default function Projects() {
     setShowForm(false);
     setEditingProject(null);
     setFormData({ name: '', description: '', repo_url: '' });
+  };
+
+  const handleWebhookToggle = async (projectId) => {
+    if (webhookProjectId === projectId) {
+      setWebhookProjectId(null);
+      setWebhookConfig(null);
+      return;
+    }
+    setWebhookError('');
+    setWebhookNotice('');
+    setWebhookConfig(null);
+    setWebhookProjectId(projectId);
+    try {
+      const res = await getGithubWebhookConfig(projectId);
+      setWebhookConfig(res.data);
+    } catch (err) {
+      setWebhookError(err.response?.data?.detail || 'Could not load webhook settings.');
+    }
+  };
+
+  const handleRotateSecret = async (projectId) => {
+    if (!window.confirm('Rotate this secret? GitHub will stop delivering events until its webhook is updated.')) return;
+    setWebhookError('');
+    setWebhookNotice('');
+    try {
+      const res = await rotateGithubWebhookSecret(projectId);
+      setWebhookConfig(res.data);
+      setWebhookNotice('Secret rotated. Update it in GitHub now.');
+    } catch (err) {
+      setWebhookError(err.response?.data?.detail || 'Could not rotate the webhook secret.');
+    }
+  };
+
+  const handleCopy = async (value, label) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setWebhookNotice(`${label} copied.`);
+    } catch {
+      setWebhookError('Clipboard access is unavailable in this browser.');
+    }
   };
 
   if (loading) {
@@ -107,8 +161,9 @@ export default function Projects() {
     <div className="projects-page">
       <div className="projects-header">
         <div>
-          <h1>My Projects</h1>
-          <p>Organize your posts by project</p>
+          <span className="eyebrow"><span /> WORKSPACE / PROJECTS</span>
+          <h1>Projects</h1>
+          <p>Release history and webhook settings for your work.</p>
         </div>
         {!showForm && (
           <button
@@ -173,11 +228,13 @@ export default function Projects() {
         </div>
       )}
 
+      {pageError && <p className="project-page-error" role="alert">{pageError}</p>}
+
       {projects.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">📁</div>
-          <h3>No projects yet</h3>
-          <p>Create a project to organize your devlogs</p>
+          <span className="eyebrow">NO PROJECTS</span>
+          <h3>Your changelog starts with a project.</h3>
+          <p>Connect a repository to group updates and configure release webhooks.</p>
         </div>
       ) : (
         <div className="projects-grid">
@@ -213,6 +270,39 @@ export default function Projects() {
                   View Repository →
                 </a>
               )}
+              <div className="webhook-settings">
+                <button
+                  type="button"
+                  className="webhook-toggle"
+                  onClick={() => handleWebhookToggle(project.project_id)}
+                >
+                  {webhookProjectId === project.project_id ? 'Hide GitHub webhook' : 'GitHub webhook'}
+                </button>
+                {webhookProjectId === project.project_id && (
+                  <div className="webhook-panel">
+                    <p>In GitHub, add a repository webhook with content type <code>application/json</code> and select the <code>Release</code> event.</p>
+                    {webhookConfig ? (
+                      <>
+                        <div className="webhook-value">
+                          <span>Payload URL</span>
+                          <code>{API_BASE_URL}{webhookConfig.webhook_path}</code>
+                          <button type="button" onClick={() => handleCopy(`${API_BASE_URL}${webhookConfig.webhook_path}`, 'URL')}>Copy</button>
+                        </div>
+                        <div className="webhook-value">
+                          <span>Secret</span>
+                          <code>{webhookConfig.webhook_secret}</code>
+                          <button type="button" onClick={() => handleCopy(webhookConfig.webhook_secret, 'Secret')}>Copy</button>
+                        </div>
+                        <button type="button" className="rotate-secret-btn" onClick={() => handleRotateSecret(project.project_id)}>
+                          Rotate secret
+                        </button>
+                      </>
+                    ) : !webhookError ? <p>Loading webhook settings...</p> : null}
+                    {webhookNotice && <p className="webhook-notice">{webhookNotice}</p>}
+                    {webhookError && <p className="webhook-error">{webhookError}</p>}
+                  </div>
+                )}
+              </div>
               <div className="project-meta">
                 Created {new Date(project.created_at).toLocaleDateString()}
               </div>

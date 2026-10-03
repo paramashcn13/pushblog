@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { register as registerApi } from '../api/client';
+import { register as registerApi, updateProfile } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
@@ -8,6 +8,7 @@ export default function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
+    display_name: '',
     username: '',
     email: '',
     password: '',
@@ -45,6 +46,13 @@ export default function Register() {
         password: formData.password,
       });
       login(res.data.access_token, res.data.user);
+      if (formData.display_name.trim()) {
+        try {
+          await updateProfile({ display_name: formData.display_name.trim() });
+        } catch (profileError) {
+          console.error('Could not save display name:', profileError);
+        }
+      }
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.detail || 'Registration failed. Please try again.');
@@ -57,12 +65,27 @@ export default function Register() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
+          <Link to="/" className="auth-brand">pushblog<span>.</span></Link>
+          <span className="eyebrow"><span /> DEVELOPER JOURNAL</span>
           <h1>Create Account</h1>
           <p>Join PushBlog and share your dev journey</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="auth-error">{error}</div>}
+
+          <div className="form-group">
+            <label htmlFor="display_name">Name</label>
+            <input
+              type="text"
+              id="display_name"
+              name="display_name"
+              value={formData.display_name}
+              onChange={handleChange}
+              required
+              autoComplete="name"
+            />
+          </div>
 
           <div className="form-group">
             <label htmlFor="username">Username</label>

@@ -32,6 +32,16 @@
   font-size: 0.85rem;
 }
 
+.comment-profile-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.comment-profile-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .comment-input {
   flex: 1;
   background: var(--bg);

@@ -1,0 +1,82 @@
+.likes-popover-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.likes-list-trigger {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.likes-list-trigger:hover:not(:disabled) {
+  color: var(--accent);
+}
+
+.likes-list-trigger:disabled {
+  cursor: default;
+}
+
+.likes-popover {
+  position: absolute;
+  z-index: 15;
+  bottom: calc(100% + 9px);
+  left: 0;
+  display: grid;
+  gap: 8px;
+  width: min(250px, calc(100vw - 48px));
+  max-height: 260px;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 8px 24px rgb(20 27 38 / 12%);
+  font-size: 0.74rem;
+}
+
+.likes-popover > strong {
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.72rem;
+}
+
+.likes-person {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.likes-person > span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+
+.likes-popover-state,
+.likes-popover-error {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.likes-popover-error {
+  color: #a73c34;
+}
+
+.likes-popover-close {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+}

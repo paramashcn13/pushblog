@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getComments, addComment, deleteComment } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import './CommentSection.css';
@@ -101,14 +102,14 @@ export default function CommentSection({ postId }) {
       <div className="comments-list">
         {comments.map((comment) => (
           <div key={comment.comment_id} className="comment">
-            <div className="comment-avatar">
+            <Link to={`/profile/${comment.author?.username || ''}`} className="comment-avatar comment-profile-link" aria-label={`View ${comment.author?.username || 'unknown'} profile`}>
               {comment.author?.username[0].toUpperCase() || '?'}
-            </div>
+            </Link>
             <div className="comment-body">
               <div className="comment-header">
-                <span className="comment-author">
+                <Link to={`/profile/${comment.author?.username || ''}`} className="comment-author comment-profile-link">
                   {comment.author?.username || 'Unknown'}
-                </span>
+                </Link>
                 <span className="comment-date">
                   {formatDate(comment.created_at)}
                 </span>

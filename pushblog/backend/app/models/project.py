@@ -13,6 +13,7 @@ class Project(Base):
     name = Column(String(100), nullable=False)
     description = Column(Text)
     repo_url = Column(String(500))
+    webhook_secret = Column(String(64))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="projects")

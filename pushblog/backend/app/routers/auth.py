@@ -59,12 +59,14 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=Token)
 def login(user_data: UserLogin, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == user_data.username).first()
+    user = db.query(User).filter(
+        (User.username == user_data.username) | (User.email == user_data.username)
+    ).first()
 
     if not user or not verify_password(user_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid username or password"
+            detail="Invalid username/email or password"
         )
 
     access_token = create_access_token(

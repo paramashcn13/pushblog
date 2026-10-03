@@ -2,15 +2,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from .database import engine, Base
+from .database import engine, Base, upgrade_schema
 from .config import UPLOAD_DIR, CORS_ORIGINS, AUTO_CREATE_TABLES, STORAGE_BACKEND
 from .routers import (
     auth_router, users_router, projects_router,
-    posts_router, social_router, upload_router
+    posts_router, social_router, upload_router, webhooks_router
 )
 
 if AUTO_CREATE_TABLES:
     Base.metadata.create_all(bind=engine)
+    upgrade_schema()
 
 app = FastAPI(
     title="PushBlog API",
@@ -37,6 +38,7 @@ app.include_router(projects_router)
 app.include_router(posts_router)
 app.include_router(social_router)
 app.include_router(upload_router)
+app.include_router(webhooks_router)
 
 
 @app.get("/")

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
+from sqlalchemy import and_, or_, select
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
@@ -7,6 +8,7 @@ from ..models.user import User
 from ..models.post import Post
 from ..models.media import Media
 from ..models.follow import Follow
+from ..utils.permissions import can_view_post
 from ..schemas import (
     PostCreate, PostUpdate, PostResponse, PostWithAuthor,
     UserResponse, ProjectResponse, MediaResponse
@@ -27,6 +29,9 @@ def build_post_response(post: Post, current_user: Optional[User]) -> PostWithAut
         version=post.version,
         change_type=post.change_type,
         visibility=post.visibility,
+        status=post.status,
+        release_compare_url=post.release_compare_url,
+        release_impact=post.release_impact,
         created_at=post.created_at,
         updated_at=post.updated_at,
         media=[MediaResponse.model_validate(m) for m in post.media],
@@ -48,7 +53,8 @@ def explore_posts(
     current_user: User = Depends(get_optional_user)
 ):
     posts = db.query(Post).filter(
-        Post.visibility == "public"
+        Post.visibility == "public",
+        Post.status == "published"
     ).order_by(Post.created_at.desc()).offset(offset).limit(limit).all()
 
     return [build_post_response(post, current_user) for post in posts]
@@ -62,13 +68,17 @@ def get_feed(
     current_user: User = Depends(get_current_user)
 ):
     # Get posts from followed users + own posts
-    following_ids = db.query(Follow.following_id).filter(
-        Follow.follower_id == current_user.user_id
-    ).subquery()
+    accepted_following_ids = select(Follow.following_id).where(
+        Follow.follower_id == current_user.user_id,
+        Follow.status == "accepted",
+    )
 
     posts = db.query(Post).filter(
-        (Post.user_id.in_(following_ids)) | (Post.user_id == current_user.user_id),
-        Post.visibility == "public"
+        Post.status == "published",
+        or_(
+            Post.user_id == current_user.user_id,
+            Post.user_id.in_(accepted_following_ids),
+        ),
     ).order_by(Post.created_at.desc()).offset(offset).limit(limit).all()
 
     return [build_post_response(post, current_user) for post in posts]
@@ -88,13 +98,11 @@ def get_post(
             detail="Post not found"
         )
 
-    # Check visibility
-    if post.visibility == "private":
-        if not current_user or current_user.user_id != post.user_id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="This post is private"
-            )
+    if not can_view_post(db, post, current_user):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
 
     return build_post_response(post, current_user)
 
@@ -112,7 +120,14 @@ def create_post(
         content=post_data.content,
         version=post_data.version,
         change_type=post_data.change_type,
-        visibility=post_data.visibility
+        visibility=post_data.visibility,
+        status=post_data.status,
+        release_impact={
+            "breaking_changes": False,
+            "affected_versions": None,
+            "migration_steps": None,
+            "upgrade_minutes": None,
+        },
     )
     db.add(post)
     db.commit()
@@ -153,7 +168,14 @@ def update_post(
             detail="Post not found"
         )
 
-    for key, value in post_data.model_dump(exclude_unset=True).items():
+    updates = post_data.model_dump(exclude_unset=True)
+    if "status" in updates and updates["status"] is None:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Post status cannot be null"
+        )
+
+    for key, value in updates.items():
         setattr(post, key, value)
 
     db.commit()

@@ -1,0 +1,135 @@
+.settings-page {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.settings-heading {
+  padding: 8px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-heading h1 {
+  margin: 9px 0 4px;
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.settings-heading p,
+.settings-status {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.settings-form {
+  display: grid;
+  gap: 18px;
+  max-width: 620px;
+  padding-top: 22px;
+}
+
+.settings-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.settings-form input,
+.settings-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px;
+  font-size: 0.86rem;
+  font-weight: 400;
+}
+
+.settings-form input:focus,
+.settings-form textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  border-color: var(--accent);
+}
+
+.settings-form textarea {
+  resize: vertical;
+}
+
+.settings-form .settings-privacy-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.settings-privacy-toggle input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+}
+
+.settings-privacy-toggle span {
+  display: grid;
+  gap: 3px;
+}
+
+.settings-privacy-toggle strong {
+  font-size: 0.8rem;
+}
+
+.settings-privacy-toggle small {
+  color: var(--muted);
+  font-size: 0.71rem;
+  font-weight: 400;
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: end;
+  gap: 9px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.settings-actions button {
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.settings-cancel {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.settings-save {
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+}
+
+.settings-save:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.settings-message {
+  font-size: 0.82rem;
+}
+
+.settings-error {
+  color: #a73c34;
+}
+
+.settings-success {
+  color: #34704e;
+}

@@ -39,6 +39,8 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
+          <Link to="/" className="auth-brand">pushblog<span>.</span></Link>
+          <span className="eyebrow"><span /> DEVELOPER JOURNAL</span>
           <h1>Welcome Back</h1>
           <p>Sign in to continue to PushBlog</p>
         </div>
@@ -47,7 +49,7 @@ export default function Login() {
           {error && <div className="auth-error">{error}</div>}
 
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username or email</label>
             <input
               type="text"
               id="username"

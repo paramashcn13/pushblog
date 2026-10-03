@@ -1,9 +1,4 @@
-@font-face {
-  font-family: 'StretchPro';
-  src: url('/fonts/StretchPro.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 *,
 *::before,
@@ -14,23 +9,39 @@
 }
 
 :root {
-  --bg: #fff;
-  --text: #000;
-  --border: #000;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  color-scheme: light;
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1b2028;
+  --muted: #68717e;
+  --border: #dce0e6;
+  --accent: #315fce;
+  --accent-soft: #e9efff;
+  --sidebar: #171b22;
+  --sidebar-muted: #aab1bc;
+  --mono: 'IBM Plex Mono', 'Cascadia Code', monospace;
 }
 
 [data-theme="dark"] {
-  --bg: #000;
-  --text: #fff;
-  --border: #fff;
+  color-scheme: dark;
+  --bg: #12161c;
+  --surface: #191f27;
+  --text: #edf0f4;
+  --muted: #a0a9b4;
+  --border: #343c47;
+  --accent: #8aaeff;
+  --accent-soft: #202d46;
+  --sidebar: #0d1117;
+  --sidebar-muted: #aab1bc;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.18s ease, color 0.18s ease;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -58,10 +69,14 @@ input, textarea, select {
 }
 
 .logo {
-  font-family: 'StretchPro', sans-serif;
-  font-weight: bold;
-  font-size: 1.4rem;
-  color: var(--text);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.logo span {
+  color: #75a0ff;
 }
 
 .container {
@@ -79,8 +94,8 @@ input, textarea, select {
   font-weight: 500;
   font-size: 0.9rem;
   transition: opacity 0.15s ease;
-  border: 1px solid var(--text);
-  background: var(--bg);
+  border: 1px solid var(--border);
+  background: var(--surface);
   color: var(--text);
 }
 
@@ -89,27 +104,27 @@ input, textarea, select {
 }
 
 .btn-primary {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 .input {
   width: 100%;
   padding: 0.75rem;
-  background: var(--bg);
-  border: 1px solid var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--text);
 }
 
 .input:focus {
-  outline: none;
-  outline: 2px solid var(--text);
-  outline-offset: 2px;
+  outline: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
+  outline-offset: 1px;
 }
 
 .input::placeholder {
-  color: var(--text);
-  opacity: 0.5;
+  color: var(--muted);
 }
 
 textarea.input {
@@ -118,24 +133,39 @@ textarea.input {
 }
 
 .card {
-  background: var(--bg);
-  border: 1px solid var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
   padding: 1.5rem;
 }
 
 .theme-toggle {
-  width: 32px;
-  height: 32px;
+  min-height: 34px;
   background: transparent;
-  border: 1px solid var(--text);
+  border: 1px solid var(--border);
   color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.15s ease;
-  font-size: 1rem;
+  padding: 0 10px;
+  font-size: 0.78rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .theme-toggle:hover {
-  opacity: 0.6;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: #fff;
+  background: var(--accent);
 }

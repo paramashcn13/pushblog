@@ -1,5 +1,5 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional, List
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional, List, Literal
 from datetime import datetime
 
 
@@ -31,6 +31,18 @@ class UserWithProfile(UserResponse):
     following_count: int = 0
 
 
+class UserSearchResponse(BaseModel):
+    user_id: int
+    username: str
+    display_name: Optional[str] = None
+    avatar_url: Optional[str] = None
+    bio: Optional[str] = None
+    is_private: bool = False
+    followers_count: int = 0
+    following_count: int = 0
+    follow_status: Literal["none", "pending", "accepted"] = "none"
+
+
 # Profile schemas
 class ProfileCreate(BaseModel):
     display_name: Optional[str] = None
@@ -38,6 +50,7 @@ class ProfileCreate(BaseModel):
     avatar_url: Optional[str] = None
     github_url: Optional[str] = None
     website_url: Optional[str] = None
+    is_private: bool = False
 
 
 class ProfileResponse(BaseModel):
@@ -48,6 +61,7 @@ class ProfileResponse(BaseModel):
     avatar_url: Optional[str]
     github_url: Optional[str]
     website_url: Optional[str]
+    is_private: bool = False
 
     class Config:
         from_attributes = True
@@ -99,6 +113,13 @@ class MediaResponse(BaseModel):
 
 
 # Post schemas
+class ReleaseImpact(BaseModel):
+    breaking_changes: bool = False
+    affected_versions: Optional[str] = None
+    migration_steps: Optional[str] = None
+    upgrade_minutes: Optional[int] = Field(default=None, ge=1, le=1440)
+
+
 class PostCreate(BaseModel):
     title: str
     content: str
@@ -106,6 +127,7 @@ class PostCreate(BaseModel):
     version: Optional[str] = None
     change_type: Optional[str] = None
     visibility: str = "public"
+    status: Literal["draft", "published"] = "published"
     media: Optional[List[MediaCreate]] = None
 
 
@@ -116,6 +138,8 @@ class PostUpdate(BaseModel):
     version: Optional[str] = None
     change_type: Optional[str] = None
     visibility: Optional[str] = None
+    status: Optional[Literal["draft", "published"]] = None
+    release_impact: Optional[ReleaseImpact] = None
 
 
 class PostResponse(BaseModel):
@@ -127,6 +151,9 @@ class PostResponse(BaseModel):
     version: Optional[str]
     change_type: Optional[str]
     visibility: str
+    status: str
+    release_compare_url: Optional[str] = None
+    release_impact: Optional[ReleaseImpact] = None
     created_at: datetime
     updated_at: datetime
     media: List[MediaResponse] = []
@@ -141,6 +168,17 @@ class PostResponse(BaseModel):
 class PostWithAuthor(PostResponse):
     author: UserResponse
     project: Optional[ProjectResponse] = None
+
+
+class ProjectDiscoveryResponse(ProjectResponse):
+    owner: UserResponse
+    updates_count: int
+    current_version: Optional[str] = None
+    updated_at: datetime
+
+
+class ProjectDetailResponse(ProjectDiscoveryResponse):
+    recent_updates: List[PostWithAuthor] = Field(default_factory=list)
 
 
 # Comment schemas
@@ -182,6 +220,11 @@ class NotificationResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class FollowRequestResponse(BaseModel):
+    follower: UserResponse
+    created_at: datetime
 
 
 # Auth response

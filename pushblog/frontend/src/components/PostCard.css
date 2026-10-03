@@ -1,26 +1,48 @@
 .post-card {
-  border: 1px solid var(--text);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  display: block;
+  padding: 20px 0 17px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  transition: background 140ms ease;
+}
+
+.post-card:hover {
+  text-decoration: none;
 }
 
 .post-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 .post-author {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  color: var(--text);
+}
+
+.post-author:hover {
+  text-decoration: none;
+}
+
+.post-summary-link {
+  display: block;
+  color: var(--text);
+}
+
+.post-summary-link:hover {
+  text-decoration: none;
 }
 
 .author-avatar {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--text);
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +57,7 @@
 
 .author-name {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
 }
 
 .author-name:hover {
@@ -43,8 +65,9 @@
 }
 
 .post-date {
-  font-size: 0.8rem;
-  opacity: 0.6;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.65rem;
 }
 
 .post-meta {
@@ -56,29 +79,65 @@
 .post-version,
 .change-type,
 .project-tag {
-  font-size: 0.75rem;
-  padding: 0.2rem 0.5rem;
-  border: 1px solid var(--text);
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  line-height: 1.2;
+}
+
+.post-version {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.change-type {
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.project-tag {
+  background: var(--surface);
+  color: var(--muted);
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 0.68rem;
+}
+
+.post-status-draft {
+  border: 1px solid #b66b13;
+  color: #9a5708;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  padding: 2px 6px;
+  text-transform: uppercase;
 }
 
 .post-content {
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 .post-title {
-  font-size: 1.25rem;
+  margin-bottom: 7px;
+  font-size: 1.12rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
 }
 
 .post-title:hover {
-  text-decoration: underline;
+  color: var(--accent);
 }
 
 .post-excerpt {
-  font-size: 0.95rem;
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 0.86rem;
   line-height: 1.6;
-  opacity: 0.8;
 }
 
 .post-media {
@@ -90,7 +149,7 @@
   width: 100%;
   max-height: 300px;
   object-fit: cover;
-  border: 1px solid var(--text);
+  border: 1px solid var(--border);
 }
 
 .media-count {
@@ -98,16 +157,16 @@
   bottom: 10px;
   right: 10px;
   background: var(--bg);
-  border: 1px solid var(--text);
+  border: 1px solid var(--border);
   padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
 }
 
 .post-actions {
   display: flex;
-  gap: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--text);
+  gap: 18px;
+  padding-top: 9px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
 }
 
 .action-btn {
@@ -116,14 +175,14 @@
   gap: 0.4rem;
   background: none;
   border: none;
-  color: var(--text);
-  font-size: 0.9rem;
+  color: var(--muted);
+  font-size: 0.72rem;
   cursor: pointer;
   padding: 0;
 }
 
 .action-btn:hover {
-  text-decoration: underline;
+  color: var(--accent);
 }
 
 .like-btn.liked {
@@ -131,5 +190,19 @@
 }
 
 .action-icon {
-  font-size: 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 520px) {
+  .post-card {
+    padding: 16px 0 14px;
+  }
+
+  .post-title {
+    font-size: 1rem;
+  }
+
+  .post-actions {
+    gap: 14px;
+  }
 }

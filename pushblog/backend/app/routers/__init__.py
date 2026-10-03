@@ -4,6 +4,7 @@ from .projects import router as projects_router
 from .posts import router as posts_router
 from .social import router as social_router
 from .upload import router as upload_router
+from .webhooks import router as webhooks_router
 
 __all__ = [
     "auth_router",
@@ -11,5 +12,6 @@ __all__ = [
     "projects_router",
     "posts_router",
     "social_router",
-    "upload_router"
+    "upload_router",
+    "webhooks_router"
 ]

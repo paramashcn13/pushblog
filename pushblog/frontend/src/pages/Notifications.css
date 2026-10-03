@@ -1,0 +1,240 @@
+.notifications-page {
+  width: min(100%, 920px);
+  margin: 0 auto;
+}
+
+.notifications-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.notifications-heading h1 {
+  margin: 8px 0 4px;
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.notifications-heading p {
+  color: var(--muted);
+  font-size: 0.83rem;
+}
+
+.mark-all-read {
+  padding: 6px 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.72rem;
+}
+
+.mark-all-read:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.notification-tabs {
+  display: flex;
+  gap: 22px;
+  min-height: 46px;
+  border-bottom: 1px solid var(--border);
+}
+
+.notification-tabs button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 1px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.notification-tabs button.active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.notification-tabs button.active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  content: '';
+}
+
+.notification-tabs button span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+}
+
+.notification-groups,
+.follow-request-list {
+  display: grid;
+}
+
+.notification-groups section > h2 {
+  padding: 17px 0 6px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.notification-row,
+.follow-request-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 66px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.notification-indicator {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  background: transparent;
+}
+
+.notification-row.unread .notification-indicator {
+  background: var(--accent);
+}
+
+.notification-copy,
+.request-copy {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+}
+
+.notification-copy p {
+  font-size: 0.82rem;
+}
+
+.notification-copy time,
+.request-copy time {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+}
+
+.mark-read-btn {
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.7rem;
+}
+
+.request-avatar {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.request-copy a {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.request-copy > span {
+  color: var(--muted);
+  font-size: 0.73rem;
+}
+
+.request-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.request-actions button {
+  min-height: 31px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.71rem;
+}
+
+.request-actions .accept-request {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.request-actions button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.notifications-empty {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 28px 0;
+}
+
+.notifications-empty h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.notifications-empty p {
+  color: var(--muted);
+  font-size: 0.81rem;
+}
+
+.notifications-error {
+  padding: 10px 0;
+  color: #a73c34;
+  font-size: 0.8rem;
+}
+
+.notifications-loading {
+  display: grid;
+}
+
+.notifications-loading div {
+  height: 66px;
+  border-bottom: 1px solid var(--border);
+  animation: feed-shimmer 1.4s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--border) 36%, transparent), transparent);
+  background-size: 200% 100%;
+}
+
+@media (max-width: 560px) {
+  .notifications-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .follow-request-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .request-actions {
+    width: 100%;
+    padding-left: 46px;
+  }
+}

@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toggleLike } from '../api/client';
 import { getImageUrl } from '../api/client';
+import LikesPopover from './LikesPopover';
 import './PostCard.css';
 
 const changeTypeColors = {
-  feature: '#10b981',
-  bugfix: '#ef4444',
-  improvement: '#3b82f6',
-  release: '#8b5cf6',
-  update: '#f59e0b',
+  feature: '#315fce',
+  bugfix: '#b5443b',
+  improvement: '#3e8562',
+  release: '#7a5ca8',
+  update: '#69717e',
 };
 
 export default function PostCard({ post, onLikeToggle }) {
@@ -17,10 +18,7 @@ export default function PostCard({ post, onLikeToggle }) {
   const [likesCount, setLikesCount] = useState(post.likes_count);
   const [isLiking, setIsLiking] = useState(false);
 
-  const handleLike = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  const handleLike = async () => {
     if (isLiking) return;
     setIsLiking(true);
 
@@ -46,9 +44,9 @@ export default function PostCard({ post, onLikeToggle }) {
   };
 
   return (
-    <Link to={`/post/${post.post_id}`} className="post-card">
+    <article className="post-card">
       <div className="post-header">
-        <div className="post-author">
+        <Link to={`/profile/${post.author.username}`} className="post-author">
           <div className="author-avatar">
             {post.author.username[0].toUpperCase()}
           </div>
@@ -56,46 +54,34 @@ export default function PostCard({ post, onLikeToggle }) {
             <span className="author-name">{post.author.username}</span>
             <span className="post-date">{formatDate(post.created_at)}</span>
           </div>
-        </div>
+        </Link>
         {post.version && (
           <span className="post-version">{post.version}</span>
         )}
       </div>
 
       <div className="post-content">
-        <h3 className="post-title">{post.title}</h3>
-
-        <div className="post-meta">
-          {post.change_type && (
-            <span
-              className="change-type"
-              style={{ backgroundColor: changeTypeColors[post.change_type] }}
-            >
-              {post.change_type}
-            </span>
-          )}
-          {post.project && (
-            <span className="project-tag">{post.project.name}</span>
-          )}
-        </div>
-
-        <p className="post-excerpt">
-          {post.content.length > 200
-            ? post.content.substring(0, 200) + '...'
-            : post.content}
-        </p>
-
-        {post.media && post.media.length > 0 && (
-          <div className="post-media">
-            <img
-              src={getImageUrl(post.media[0].media_url)}
-              alt={post.media[0].caption || 'Post image'}
-            />
-            {post.media.length > 1 && (
-              <span className="media-count">+{post.media.length - 1}</span>
+        <Link to={`/post/${post.post_id}`} className="post-summary-link">
+          <h3 className="post-title">{post.title}</h3>
+          <div className="post-meta">
+            {post.status === 'draft' && <span className="post-status-draft">Draft</span>}
+            {post.change_type && (
+              <span className="change-type" style={{ backgroundColor: changeTypeColors[post.change_type] }}>
+                {post.change_type.replace('_', ' ')}
+              </span>
             )}
+            {post.project && <span className="project-tag">{post.project.name}</span>}
           </div>
-        )}
+          <p className="post-excerpt">
+            {post.content.length > 200 ? `${post.content.substring(0, 200)}...` : post.content}
+          </p>
+          {post.media && post.media.length > 0 && (
+            <div className="post-media">
+              <img src={getImageUrl(post.media[0].media_url)} alt={post.media[0].caption || 'Post image'} />
+              {post.media.length > 1 && <span className="media-count">+{post.media.length - 1}</span>}
+            </div>
+          )}
+        </Link>
       </div>
 
       <div className="post-actions">
@@ -103,15 +89,16 @@ export default function PostCard({ post, onLikeToggle }) {
           className={`action-btn like-btn ${isLiked ? 'liked' : ''}`}
           onClick={handleLike}
           disabled={isLiking}
+          aria-label={isLiked ? 'Unlike update' : 'Like update'}
         >
           <span className="action-icon">{isLiked ? '❤️' : '🤍'}</span>
-          <span>{likesCount}</span>
         </button>
-        <div className="action-btn">
+        <LikesPopover postId={post.post_id} likesCount={likesCount} />
+        <Link to={`/post/${post.post_id}`} className="action-btn">
           <span className="action-icon">💬</span>
-          <span>{post.comments_count}</span>
-        </div>
+          <span>{post.comments_count} comments</span>
+        </Link>
       </div>
-    </Link>
+    </article>
   );
 }
