@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+const defaultApiUrl = import.meta.env.DEV ? '' : 'http://127.0.0.1:8000';
+export const API_BASE_URL = (import.meta.env.VITE_API_URL || defaultApiUrl).replace(/\/$/, '');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -54,6 +55,8 @@ export const getPost = (id) => api.get(`/api/posts/${id}`);
 export const createPost = (data) => api.post('/api/posts', data);
 export const updatePost = (id, data) => api.put(`/api/posts/${id}`, data);
 export const deletePost = (id) => api.delete(`/api/posts/${id}`);
+export const getBookmarks = () => api.get('/api/posts/bookmarks');
+export const toggleBookmark = (postId) => api.post(`/api/posts/${postId}/bookmark`);
 
 // Social
 export const toggleLike = (postId) => api.post(`/api/posts/${postId}/like`);

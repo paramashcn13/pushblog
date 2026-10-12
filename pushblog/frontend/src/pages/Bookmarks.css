@@ -1,0 +1,112 @@
+.bookmarks-page {
+  width: min(100%, 1050px);
+  margin: 0 auto;
+}
+
+.bookmarks-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 180px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-raised);
+}
+
+.bookmarks-heading h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+}
+
+.bookmarks-heading p,
+.bookmarks-empty p {
+  color: var(--muted);
+}
+
+.bookmarks-index {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+
+.bookmarks-list {
+  max-width: 760px;
+  padding-top: 20px;
+}
+
+.bookmarks-empty {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  max-width: 680px;
+  margin-top: 24px;
+  padding: 30px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  background: var(--surface-raised);
+}
+
+.bookmarks-empty h2 {
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.bookmarks-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 38px;
+  margin-top: 6px;
+  padding: 0 13px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.bookmarks-explore:hover {
+  background: color-mix(in srgb, var(--accent) 84%, #000);
+  text-decoration: none;
+}
+
+.bookmarks-error {
+  margin-top: 18px;
+  color: #f87171;
+}
+
+.bookmarks-loading {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+  padding-top: 20px;
+}
+
+.bookmarks-loading div {
+  height: 150px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--surface-raised), var(--surface-hover), var(--surface-raised));
+  background-size: 200% 100%;
+  animation: feed-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (max-width: 600px) {
+  .bookmarks-heading {
+    min-height: 150px;
+    padding: 22px;
+  }
+
+  .bookmarks-index {
+    display: none;
+  }
+
+  .bookmarks-empty {
+    padding: 22px;
+  }
+}

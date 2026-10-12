@@ -53,7 +53,6 @@ export default function Home({ initialTab = 'latest' }) {
   const activeProjects = [...new Map(
     posts.filter((post) => post.project).map((post) => [post.project.project_id, post.project])
   ).values()];
-  const releaseCount = posts.filter((post) => post.change_type === 'release').length;
   const greeting = new Date().getHours() < 12
     ? 'Good morning'
     : new Date().getHours() < 18 ? 'Good afternoon' : 'Good evening';
@@ -150,18 +149,6 @@ export default function Home({ initialTab = 'latest' }) {
 
         <aside className="feed-rail">
           <section className="rail-section">
-            <div className="rail-heading">
-              <span className="eyebrow">IN THIS STREAM</span>
-              <span className="rail-live"><i /> CURRENT</span>
-            </div>
-            <div className="rail-metrics">
-              <div><strong>{posts.length}</strong><span>updates loaded</span></div>
-              <div><strong>{activeProjects.length}</strong><span>projects</span></div>
-              <div><strong>{releaseCount}</strong><span>releases</span></div>
-            </div>
-          </section>
-
-          <section className="rail-section">
             <div className="rail-heading"><span className="eyebrow">ACTIVE PROJECTS</span></div>
             {activeProjects.length ? (
               <ul className="active-project-list">
@@ -173,12 +160,6 @@ export default function Home({ initialTab = 'latest' }) {
                 ))}
               </ul>
             ) : <p className="rail-empty">Project activity will show here as updates arrive.</p>}
-          </section>
-
-          <section className="rail-note">
-            <span className="eyebrow">WHY PUSHBLOG</span>
-            <p>A clear record of what changed, why it changed, and what comes next.</p>
-            {!user && <Link to="/register">Make your first entry <span>→</span></Link>}
           </section>
         </aside>
       </div>

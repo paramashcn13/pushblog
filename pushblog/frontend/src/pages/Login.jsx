@@ -13,6 +13,7 @@ export default function Login() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,7 +40,10 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <Link to="/" className="auth-brand">pushblog<span>.</span></Link>
+          <Link to="/" className="auth-brand">
+            <span className="logo-mark" aria-hidden="true"><i /><i /><i /></span>
+            <strong>PushBlog</strong>
+          </Link>
           <span className="eyebrow"><span /> DEVELOPER JOURNAL</span>
           <h1>Welcome Back</h1>
           <p>Sign in to continue to PushBlog</p>
@@ -64,7 +68,7 @@ export default function Login() {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               name="password"
               value={formData.password}
@@ -72,6 +76,15 @@ export default function Login() {
               required
               autoComplete="current-password"
             />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword((visible) => !visible)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-pressed={showPassword}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
           </div>
 
           <button type="submit" className="auth-submit" disabled={loading}>

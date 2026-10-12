@@ -47,3 +47,4 @@ class Post(Base):
     media = relationship("Media", back_populates="post", cascade="all, delete-orphan")
     likes = relationship("Like", back_populates="post", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="post", cascade="all, delete-orphan")
+    bookmarks = relationship("Bookmark", back_populates="post", cascade="all, delete-orphan")

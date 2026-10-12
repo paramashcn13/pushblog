@@ -10,6 +10,7 @@ import {
 } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import PostCard from '../components/PostCard';
+import UserAvatar from '../components/UserAvatar';
 import './Profile.css';
 
 export default function Profile() {
@@ -120,11 +121,10 @@ export default function Profile() {
     <div className="profile-page">
       <div className="profile-header">
         <div className="profile-avatar">
-          {profile.profile?.avatar_url ? (
-            <img src={profile.profile.avatar_url} alt={profile.username} />
-          ) : (
-            <span>{profile.username[0].toUpperCase()}</span>
-          )}
+          <UserAvatar
+            user={{ username: profile.username, avatar_url: profile.profile?.avatar_url }}
+            alt={`${profile.username} avatar`}
+          />
         </div>
 
         <div className="profile-info">
@@ -230,7 +230,9 @@ export default function Profile() {
           <div className="profile-relationships">
             {relationshipUsers.map((person) => (
               <Link className="profile-relationship-row" key={person.user_id} to={`/profile/${person.username}`}>
-                <span className="relationship-avatar">{person.username[0].toUpperCase()}</span>
+                <span className="relationship-avatar">
+                  <UserAvatar user={person} alt={`${person.username} avatar`} />
+                </span>
                 <span><strong>{person.username}</strong><small>View developer profile</small></span>
                 <span className="relationship-arrow">↗</span>
               </Link>

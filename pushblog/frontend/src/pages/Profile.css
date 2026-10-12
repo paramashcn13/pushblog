@@ -15,6 +15,7 @@
 .profile-avatar {
   width: 100px;
   height: 100px;
+  overflow: hidden;
   border: 1px solid var(--text);
   display: flex;
   align-items: center;

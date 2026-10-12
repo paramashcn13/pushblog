@@ -7,6 +7,7 @@ from ..database import get_db
 from ..models.user import User
 from ..models.post import Post
 from ..models.media import Media
+from ..models.bookmark import Bookmark
 from ..models.follow import Follow
 from ..utils.permissions import can_view_post
 from ..schemas import (
@@ -40,9 +41,49 @@ def build_post_response(post: Post, current_user: Optional[User]) -> PostWithAut
         is_liked=current_user is not None and any(
             like.user_id == current_user.user_id for like in post.likes
         ),
+        is_bookmarked=current_user is not None and any(
+            bookmark.user_id == current_user.user_id for bookmark in post.bookmarks
+        ),
         author=UserResponse.model_validate(post.user),
         project=ProjectResponse.model_validate(post.project) if post.project else None
     )
+
+
+@router.get("/bookmarks", response_model=List[PostWithAuthor])
+def get_bookmarks(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    bookmarks = db.query(Bookmark).join(Post).filter(
+        Bookmark.user_id == current_user.user_id,
+        Post.status == "published",
+    ).order_by(Bookmark.created_at.desc()).all()
+    posts = [bookmark.post for bookmark in bookmarks if can_view_post(db, bookmark.post, current_user)]
+    return [build_post_response(post, current_user) for post in posts]
+
+
+@router.post("/{post_id}/bookmark")
+def toggle_bookmark(
+    post_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    post = db.query(Post).filter(Post.post_id == post_id).first()
+    if not post or post.status != "published" or not can_view_post(db, post, current_user):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
+
+    bookmark = db.query(Bookmark).filter(
+        Bookmark.user_id == current_user.user_id,
+        Bookmark.post_id == post_id,
+    ).first()
+    if bookmark:
+        db.delete(bookmark)
+        db.commit()
+        return {"bookmarked": False}
+
+    db.add(Bookmark(user_id=current_user.user_id, post_id=post_id))
+    db.commit()
+    return {"bookmarked": True}
 
 
 @router.get("/explore", response_model=List[PostWithAuthor])

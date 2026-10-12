@@ -4,13 +4,14 @@ import { getPost, toggleLike, deletePost, updatePost, getImageUrl } from '../api
 import { useAuth } from '../context/AuthContext';
 import CommentSection from '../components/CommentSection';
 import LikesPopover from '../components/LikesPopover';
+import UserAvatar from '../components/UserAvatar';
 import './PostDetail.css';
 
 const changeTypeColors = {
   feature: '#10b981',
   bugfix: '#ef4444',
   improvement: '#3b82f6',
-  release: '#8b5cf6',
+  release: '#3d91a8',
   update: '#f59e0b',
 };
 
@@ -178,7 +179,7 @@ export default function PostDetail() {
           <div className="post-meta-row">
             <Link to={`/profile/${post.author.username}`} className="author-link">
               <div className="author-avatar">
-                {post.author.username[0].toUpperCase()}
+                <UserAvatar user={post.author} alt={`${post.author.username} avatar`} />
               </div>
               <div className="author-info">
                 <span className="author-name">{post.author.username}</span>

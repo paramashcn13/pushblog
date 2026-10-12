@@ -5,11 +5,11 @@ import { useAuth } from '../context/AuthContext';
 import './CreatePost.css';
 
 const changeTypes = [
-  { value: 'feature', label: 'Feature', color: '#10b981' },
-  { value: 'bugfix', label: 'Bug Fix', color: '#ef4444' },
-  { value: 'improvement', label: 'Improvement', color: '#3b82f6' },
-  { value: 'release', label: 'Release', color: '#8b5cf6' },
-  { value: 'update', label: 'Update', color: '#f59e0b' },
+  { value: 'feature', label: 'Feature', color: '#4f83cc' },
+  { value: 'bugfix', label: 'Bug Fix', color: '#c45c5c' },
+  { value: 'improvement', label: 'Improvement', color: '#5e9b78' },
+  { value: 'release', label: 'Release', color: '#3d91a8' },
+  { value: 'update', label: 'Update', color: '#778493' },
 ];
 
 export default function CreatePost() {

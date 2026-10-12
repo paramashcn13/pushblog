@@ -7,8 +7,9 @@ from .follow import Follow
 from .like import Like
 from .comment import Comment
 from .notification import Notification
+from .bookmark import Bookmark
 
 __all__ = [
     "User", "Profile", "Project", "Post", "Media",
-    "Follow", "Like", "Comment", "Notification"
+    "Follow", "Like", "Comment", "Notification", "Bookmark"
 ]

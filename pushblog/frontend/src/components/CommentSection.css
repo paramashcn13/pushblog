@@ -23,6 +23,8 @@
 .comment-avatar {
   width: 32px;
   height: 32px;
+  overflow: hidden;
+  border-radius: 50%;
   border: 1px solid var(--text);
   display: flex;
   align-items: center;

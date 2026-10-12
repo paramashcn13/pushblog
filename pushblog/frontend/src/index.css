@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 *,
 *::before,
@@ -9,35 +9,46 @@
 }
 
 :root {
-  font-family: 'DM Sans', 'Segoe UI', sans-serif;
-  color-scheme: light;
-  --bg: #f5f6f8;
-  --surface: #ffffff;
-  --text: #1b2028;
-  --muted: #68717e;
-  --border: #dce0e6;
-  --accent: #315fce;
-  --accent-soft: #e9efff;
-  --sidebar: #171b22;
-  --sidebar-muted: #aab1bc;
-  --mono: 'IBM Plex Mono', 'Cascadia Code', monospace;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  color-scheme: dark;
+  --bg: #0d1117;
+  --surface: #121820;
+  --surface-raised: #161d26;
+  --surface-hover: #1c2530;
+  --text: #e6edf3;
+  --muted: #9ba7b4;
+  --faint: #6f7d8c;
+  --border: #27313d;
+  --border-strong: #3b4857;
+  --accent: #4f8fe8;
+  --accent-soft: rgba(79, 143, 232, 0.13);
+  --sidebar: #10161e;
+  --sidebar-muted: #9ba7b4;
+  --mono: 'JetBrains Mono', 'Cascadia Code', monospace;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.26);
 }
 
-[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #12161c;
-  --surface: #191f27;
-  --text: #edf0f4;
-  --muted: #a0a9b4;
-  --border: #343c47;
-  --accent: #8aaeff;
-  --accent-soft: #202d46;
-  --sidebar: #0d1117;
-  --sidebar-muted: #aab1bc;
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f7fa;
+  --surface: #fff;
+  --surface-raised: #fff;
+  --surface-hover: #f1f4f8;
+  --text: #1f2933;
+  --muted: #5f6b78;
+  --faint: #83909d;
+  --border: #dce2e8;
+  --border-strong: #bcc7d2;
+  --accent: #2767b2;
+  --accent-soft: rgba(39, 103, 178, 0.1);
+  --sidebar: #f9fafb;
+  --sidebar-muted: #5f6b78;
+  --shadow: 0 20px 60px rgba(28, 42, 58, 0.09);
 }
 
 body {
-  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  min-width: 320px;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -58,25 +69,86 @@ a:hover {
   text-decoration: underline;
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
+button,
+input,
+textarea,
+select {
+  color: inherit;
+  font: inherit;
 }
 
-input, textarea, select {
-  font-family: inherit;
-  font-size: inherit;
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  color: #fff;
+  background: var(--accent);
 }
 
 .logo {
-  font-size: 1.45rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -0.04em;
-  color: #fff;
 }
 
-.logo span {
-  color: #75a0ff;
+.logo-mark {
+  width: 27px;
+  height: 27px;
+  padding: 6px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 8px;
+  background: var(--accent);
+}
+
+.logo-mark i {
+  width: 3px;
+  height: 7px;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.logo-mark i:nth-child(2) {
+  height: 14px;
+}
+
+.logo-mark i:nth-child(3) {
+  height: 10px;
+}
+
+.user-avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-avatar-fallback {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
 }
 
 .container {
@@ -90,60 +162,70 @@ input, textarea, select {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: opacity 0.15s ease;
+  padding: 0.55rem 1rem;
   border: 1px solid var(--border);
+  border-radius: 8px;
   background: var(--surface);
   color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .btn:hover {
-  opacity: 0.6;
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
 }
 
 .btn-primary {
-  background: var(--accent);
   border-color: var(--accent);
+  background: var(--accent);
   color: #fff;
+}
+
+.btn-primary:hover {
+  border-color: color-mix(in srgb, var(--accent) 84%, #000);
+  background: color-mix(in srgb, var(--accent) 84%, #000);
 }
 
 .input {
   width: 100%;
   padding: 0.75rem;
-  background: var(--surface);
   border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
   color: var(--text);
 }
 
 .input:focus {
-  outline: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-color: var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
   outline-offset: 1px;
 }
 
 .input::placeholder {
-  color: var(--muted);
+  color: var(--faint);
 }
 
 textarea.input {
-  resize: vertical;
   min-height: 100px;
+  resize: vertical;
 }
 
 .card {
-  background: var(--surface);
   border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-raised);
   padding: 1.5rem;
 }
 
 .theme-toggle {
   min-height: 34px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
   padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
   font-size: 0.78rem;
   transition: border-color 0.15s ease, color 0.15s ease;
 }
@@ -153,19 +235,7 @@ textarea.input {
   color: var(--accent);
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-::selection {
-  color: #fff;
-  background: var(--accent);
+code,
+kbd {
+  font-family: var(--mono);
 }

@@ -3,7 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .database import engine, Base, upgrade_schema
-from .config import UPLOAD_DIR, CORS_ORIGINS, AUTO_CREATE_TABLES, STORAGE_BACKEND
+from .config import (
+    UPLOAD_DIR,
+    CORS_ORIGINS,
+    ALLOW_PRIVATE_NETWORK,
+    AUTO_CREATE_TABLES,
+    STORAGE_BACKEND,
+)
 from .routers import (
     auth_router, users_router, projects_router,
     posts_router, social_router, upload_router, webhooks_router
@@ -26,6 +32,7 @@ app.add_middleware(
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_private_network=ALLOW_PRIVATE_NETWORK,
 )
 
 # Serve uploads from disk only for local storage; with S3 they come from the bucket/CDN

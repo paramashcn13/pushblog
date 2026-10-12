@@ -20,6 +20,7 @@ class UserResponse(BaseModel):
     username: str
     email: str
     created_at: datetime
+    avatar_url: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -160,6 +161,7 @@ class PostResponse(BaseModel):
     likes_count: int = 0
     comments_count: int = 0
     is_liked: bool = False
+    is_bookmarked: bool = False
 
     class Config:
         from_attributes = True

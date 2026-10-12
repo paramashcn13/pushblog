@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getComments, addComment, deleteComment } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import UserAvatar from './UserAvatar';
 import './CommentSection.css';
 
 export default function CommentSection({ postId }) {
@@ -75,7 +76,7 @@ export default function CommentSection({ postId }) {
         <form onSubmit={handleSubmit} className="comment-form">
           <div className="comment-input-wrapper">
             <div className="comment-avatar">
-              {user.username[0].toUpperCase()}
+              <UserAvatar user={user} alt={`${user.username} avatar`} />
             </div>
             <textarea
               value={newComment}
@@ -103,7 +104,7 @@ export default function CommentSection({ postId }) {
         {comments.map((comment) => (
           <div key={comment.comment_id} className="comment">
             <Link to={`/profile/${comment.author?.username || ''}`} className="comment-avatar comment-profile-link" aria-label={`View ${comment.author?.username || 'unknown'} profile`}>
-              {comment.author?.username[0].toUpperCase() || '?'}
+              <UserAvatar user={comment.author} alt={`${comment.author?.username || 'User'} avatar`} />
             </Link>
             <div className="comment-body">
               <div className="comment-header">

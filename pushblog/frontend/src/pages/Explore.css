@@ -8,13 +8,16 @@
   justify-content: space-between;
   align-items: end;
   gap: 24px;
-  padding: 8px 0 24px;
-  border-bottom: 1px solid var(--border);
+  min-height: 190px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-raised);
 }
 
 .explore-heading h1 {
   margin: 9px 0 4px;
-  font-size: 1.85rem;
+  font-size: clamp(2.1rem, 4vw, 3rem);
   font-weight: 600;
   letter-spacing: -0.04em;
 }
@@ -36,7 +39,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 48px;
+  min-height: 52px;
+  margin-top: 22px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -97,8 +101,11 @@
 }
 
 .discovery-project {
-  padding: 18px 0 15px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-raised);
 }
 
 .discovery-project-main {
@@ -163,7 +170,11 @@
   display: grid;
   justify-items: start;
   gap: 10px;
-  padding: 34px 0;
+  margin-top: 18px;
+  padding: 28px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  background: var(--surface-raised);
 }
 
 .explore-empty h2 {
@@ -177,9 +188,21 @@
 }
 
 .explore-error {
-  padding: 12px 0;
-  color: #a73c34;
+  margin-top: 14px;
+  padding: 11px 13px;
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.08);
+  color: #f87171;
   font-size: 0.82rem;
+}
+
+.discovery-developers > * {
+  margin-bottom: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-raised);
 }
 
 .explore-loading > div {

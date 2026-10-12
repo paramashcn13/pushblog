@@ -345,7 +345,7 @@
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #244da9;
+  background: color-mix(in srgb, var(--accent) 84%, #000);
   opacity: 1;
 }
 
@@ -413,10 +413,10 @@
   font-weight: 600;
 }
 
-.type-feature { color: #315fce; }
+.type-feature { color: #4f83cc; }
 .type-bugfix { color: #b5443b; }
-.type-improvement { color: #3e8562; }
-.type-release { color: #7a5ca8; }
+.type-improvement { color: #5e9b78; }
+.type-release { color: #3d91a8; }
 .type-update { color: #69717e; }
 
 .preview-project {

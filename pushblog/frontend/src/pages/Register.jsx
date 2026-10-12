@@ -16,6 +16,8 @@ export default function Register() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -65,7 +67,10 @@ export default function Register() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <Link to="/" className="auth-brand">pushblog<span>.</span></Link>
+          <Link to="/" className="auth-brand">
+            <span className="logo-mark" aria-hidden="true"><i /><i /><i /></span>
+            <strong>PushBlog</strong>
+          </Link>
           <span className="eyebrow"><span /> DEVELOPER JOURNAL</span>
           <h1>Create Account</h1>
           <p>Join PushBlog and share your dev journey</p>
@@ -116,7 +121,7 @@ export default function Register() {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               name="password"
               value={formData.password}
@@ -124,12 +129,21 @@ export default function Register() {
               required
               autoComplete="new-password"
             />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword((visible) => !visible)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-pressed={showPassword}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
               name="confirmPassword"
               value={formData.confirmPassword}
@@ -137,6 +151,15 @@ export default function Register() {
               required
               autoComplete="new-password"
             />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowConfirmPassword((visible) => !visible)}
+              aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              aria-pressed={showConfirmPassword}
+            >
+              {showConfirmPassword ? 'Hide' : 'Show'}
+            </button>
           </div>
 
           <button type="submit" className="auth-submit" disabled={loading}>
